@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
+import { WeatherStyles } from '../styles/WeatherStyles'
+import Clouds from '../assets/images/clouds.jpg'
+import { BiCloudSnow } from 'react-icons/bi'
 
 export default function Weather() {
    const [name, setName] = useState('')
    const [temp, setTemp] = useState('')
-   const [tempMax, setTempMax] = useState('')
-   const [tempMin, setTempMin] = useState('')
    const [condition, setCondition] = useState('')
    const [searchInput, setSearchInput] = useState('')
 
@@ -21,8 +22,6 @@ export default function Weather() {
       console.log(json)
       setName(json.name)
       setTemp(json.main.temp)
-      setTempMax(json.main.temp_max)
-      setTempMin(json.main.temp_min)
       setCondition(json.weather[0].main)
     }
 
@@ -34,24 +33,27 @@ export default function Weather() {
       const newCity = weatherRequest(searchInput)
       setSearchInput('');
       return newCity;
-
    };
 
    return (
-     <div>
-       <div>
-         <input
-           type="text"
-           onChange={handleChange}
-           value={searchInput}
-         />
-         <button onClick={() => handleSubmit()}>Submit</button>
+     <WeatherStyles>
+       <img src={Clouds} alt="" className="background-image" />
+       <div className="card">
+         <BiCloudSnow size={150} />
+         <div className="city-temp">
+           <h4>{name}</h4>
+           <h4>{temp}°F</h4>
+         </div>
+         <div className="search-city">
+           <input
+             type="text"
+             onChange={handleChange}
+             value={searchInput}
+             placeholder="Enter City"
+           />
+           <button onClick={() => handleSubmit()}>Submit</button>
+         </div>
        </div>
-       <p>{name}</p>
-       <p>{temp}</p>
-       <p>{tempMax}</p>
-       <p>{tempMin}</p>
-       <p>{condition}</p>
-     </div>
+     </WeatherStyles>
    );
 }
